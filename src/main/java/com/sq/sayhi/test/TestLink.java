@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 public class TestLink {
 
     public static void main(String[] args) {
-        Wechaty bot = Wechaty.instance("puppet_donut_9f69163efc163338")
+        Wechaty bot = Wechaty.instance("your_token")
                 .onScan((qrcode, statusScanStatus, data) -> System.out.println(QrcodeUtils.getQr(qrcode)))
                 .onLogin(user -> System.out.println(user))
                 .onMessage(message -> {
