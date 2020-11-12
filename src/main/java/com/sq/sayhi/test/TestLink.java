@@ -14,20 +14,20 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class TestLink {
 
-    Wechaty bot = Wechaty.instance("your_token")
-            .onScan((qrcode, statusScanStatus, data) -> System.out.println(QrcodeUtils.getQr(qrcode)))
-            .onLogin(user -> System.out.println(user))
-            .onMessage(message -> {
-                Room room = message.room();
-                String text = message.text();
-                Contact from = message.from();
-                System.out.println(from);
-                if (StringUtils.equals(text, "#ding")) {
-                    if (room != null) {
-                        room.say("dong");
+    public static void main(String[] args) {
+        Wechaty bot = Wechaty.instance("puppet_donut_9f69163efc163338")
+                .onScan((qrcode, statusScanStatus, data) -> System.out.println(QrcodeUtils.getQr(qrcode)))
+                .onLogin(user -> System.out.println(user))
+                .onMessage(message -> {
+                    Room room = message.room();
+                    String text = message.text();
+                    Contact from = message.from();
+                    System.out.println(from);
+                    if (StringUtils.equals(text, "#ding")) {
+                        if (room != null) {
+                            room.say("dong");
+                        }
                     }
-                }
-            }).start(true);
-
-
+                }).start(true);
+    }
 }
