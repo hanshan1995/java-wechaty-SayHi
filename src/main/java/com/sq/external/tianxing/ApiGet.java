@@ -14,6 +14,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 /**
  * @program: sayhi
@@ -21,7 +22,7 @@ import java.io.InputStream;
  * @author: zxw_
  * @create: 2020-11-12 17:07
  */
-public class WangYiYunApi {
+public class ApiGet {
 
     public static String request(String httpUrl) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
@@ -33,11 +34,7 @@ public class WangYiYunApi {
             response = httpClient.execute(client);
             HttpEntity entity = response.getEntity();
             result = EntityUtils.toString(entity);
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -54,4 +51,5 @@ public class WangYiYunApi {
         }
         return result;
     }
+
 }
