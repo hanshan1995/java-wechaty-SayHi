@@ -16,7 +16,8 @@ import io.github.wechaty.utils.QrcodeUtils;
 public class TestLink {
 
     public static void main(String[] args) {
-        Wechaty bot = Wechaty.instance("puppet_donut_9f69163efc163338");
+
+        Wechaty bot = Wechaty.instance("token");
         bot.onScan((qrcode, statusScanStatus, data) -> System.out.println(QrcodeUtils.getQr(qrcode)));
         //  //new JobSend().sendMsg(bot);
         //            //bot.logout();
@@ -38,13 +39,12 @@ public class TestLink {
                 System.out.println("self:" + from.self());
                 System.out.println("stranger:" + from.stranger());
                 System.out.println("type:" + from.type());
-                // wxid_9zn6ga9c6q1m21  => 潮汐的永恒
-                // wxid_mq9g2u2w3w7822  => 琪琪
-                // wxid_bil9bkbyn47522  => 学文Zhang
+        
                 from.say("你好");
             }
         });
         bot.start(true);
+
 
     }
 }
