@@ -1,38 +1,43 @@
-
 package com.sq.external.tianxing;
 
-
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import org.apache.http.HttpEntity;
-import org.apache.http.ParseException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 
-
 /**
  * @program: sayhi
- * @description: 网易云api
+ * @description:
  * @author: zxw_
- * @create: 2020-11-12 17:07
+ * @create: 2020-11-20 17:19
  */
+public class ApiPost {
 
-public class ApiGet {
+    private static final Log log = LogFactory.getCurrentLogFactory().getLog(ApiPost.class);
 
-    public static String request(String httpUrl) {
+    public static String request(String httpUrl,String param) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-
-        String result = null;
+        HttpPost post = new HttpPost(httpUrl);
+        StringEntity stringEntity = new StringEntity(param,"UTF-8");
+        post.setEntity(stringEntity);
+        HttpEntity httpEntity = null;
         CloseableHttpResponse response = null;
+        String result = "";
         try {
-            HttpGet client = new HttpGet(httpUrl);
-            response = httpClient.execute(client);
-            HttpEntity entity = response.getEntity();
-            result = EntityUtils.toString(entity);
-        } catch (IOException | ParseException e) {
+            response = httpClient.execute(post);
+            httpEntity= response.getEntity();
+            result = EntityUtils.toString(httpEntity);
+        }catch (IOException e) {
+            log.error("post request error",e);
             e.printStackTrace();
         } finally {
             try {
@@ -51,4 +56,3 @@ public class ApiGet {
     }
 
 }
-

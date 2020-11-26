@@ -9,7 +9,7 @@
         <AsyncRoot level="INFO" includeLocation="true">
             <AppenderRef ref="Console"/>
         </AsyncRoot>
-        <Logger name="io.github.wechaty" level="DEBUG">
+        <Logger name="io.github.wechaty" level="TRACE">
         </Logger>
     </Loggers>
 </Configuration>

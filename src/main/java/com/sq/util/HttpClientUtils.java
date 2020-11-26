@@ -20,7 +20,7 @@ import java.io.IOException;
 
 public class HttpClientUtils {
 
-    private static Logger logger = LoggerFactory.getLogger(HttpClientUtils.class); // 日志记录
+    private static final Logger logger = LoggerFactory.getLogger(HttpClientUtils.class); // 日志记录
 
     private static RequestConfig requestConfig = null;
 
