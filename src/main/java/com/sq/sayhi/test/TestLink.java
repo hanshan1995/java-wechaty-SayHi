@@ -1,12 +1,20 @@
 package com.sq.sayhi.test;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONObject;
 import com.sq.game.config.JobSend;
+import com.sq.game.handler.Handler;
+import com.sq.game.handler.RoomMessageHandler;
+import com.sq.game.handler.SimpleMessageHandler;
 import com.sq.util.HttpClientUtils;
 import io.github.wechaty.Wechaty;
 import io.github.wechaty.user.Contact;
 import io.github.wechaty.user.Room;
 import io.github.wechaty.utils.QrcodeUtils;
+
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.concurrent.Future;
 
 /**
  * @program: sayhi
@@ -25,63 +33,19 @@ public class TestLink {
         bot.onLogin(user -> /*new JobSend(bot)*/ System.out.println(user));
         bot.onMessage(message -> {
             Room room = message.room();
-            String text = message.text();
-            Contact from = message.from();
-            if (from != null && !from.self()) {
-                if (!text.contains(" ")) {
-                    System.out.println("id:" + from.getId());
-                    //from.say("你好,[" + from.name() + "]:[" + text + "]");
-                    if ("背包".equals(text)) {
-                        String url = "http://zxw000zxw.uicp.top:31378/sys/backpack/BPContent";
-                        JSONObject obj = new JSONObject();
-                        obj.accumulate("wxid","wxid_00001");
-                        JSONObject jsonObject = HttpClientUtils.httpPost(url, obj);
-                        // String result = ApiPost.request(url, jsonParam);
-                        System.out.println(jsonObject);
-                        if ((Integer)jsonObject.get("code") == 200) {
-                            from.say(jsonObject.get("data"));
-                        }
-                    }
-                    if ("称号列表".equals(text)) {
-                        String url = "http://zxw000zxw.uicp.top:31378/sys/title/list";
-                        JSONObject jsonObject = HttpClientUtils.httpGet(url);
-                        // String result = ApiPost.request(url, jsonParam);
-                        System.out.println(jsonObject);
-                        if ((Integer)jsonObject.get("code") == 200) {
-                            from.say(jsonObject.get("data"));
-                        }
-                    }
-                    if ("我".equals(text)) {
-                        String url = "http://zxw000zxw.uicp.top:31378/sys/role/info";
-                        JSONObject obj = new JSONObject();
-                        obj.accumulate("wxid","wxid_00001");
-                        JSONObject jsonObject = HttpClientUtils.httpPost(url, obj);
-                        System.out.println(jsonObject);
-                        if ((Integer)jsonObject.get("code") == 200) {
-                            from.say(jsonObject.get("data"));
-                        }
-                    }
-                }
-                // 重构方式
-                if (text.contains(" ")) {
-                    String[] s = text.split(" ");
-                    if (s.length > 1) {
-                        String command = s[0];
-                        String param = s[1];
-                        if ("装备".equals(command)) {
-                            String url = "http://zxw000zxw.uicp.top:31378/sys/backpack/wear";
-                            JSONObject obj = new JSONObject();
-                            obj.accumulate("wxid","wxid_00001");
-                            obj.append("ids",param);
-                            JSONObject jsonObject = HttpClientUtils.httpPost(url, obj);
-                            System.out.println(jsonObject);
-                            if ((Integer)jsonObject.get("code") == 200) {
-                                from.say(jsonObject.get("data"));
-                            } else if((Integer)jsonObject.get("code") == 501) {
-                                from.say(jsonObject.get("message"));
-                            }
-                        }
-                    }
+            Handler handler;
+            if (room != null) {
+                handler = new RoomMessageHandler();
+            } else {
+                handler = new SimpleMessageHandler();
+            }
+            String resultStr = handler.run(message);
+            if (resultStr != null) {
+                if (room != null) {
+                    room.say(resultStr, CollUtil.newArrayList(message.from()));
+                } else {
+                    Contact from = message.from();
+                    from.say(resultStr);
                 }
             }
         });

@@ -27,7 +27,7 @@ public class HttpClientUtils {
     static
     {
         // 设置请求和传输超时时间
-        requestConfig = RequestConfig.custom().setSocketTimeout(2000).setConnectTimeout(2000).build();
+        requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
     }
 
     /**

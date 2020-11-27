@@ -25,6 +25,9 @@ import java.util.TimerTask;
  * @create: 2020-11-12 16:25
  */
 
+/**
+ * Java Timer 实现的任务调度  固定时间发送给特定人
+ */
 public class JobSend {
 
     private Wechaty wechaty;
@@ -41,7 +44,7 @@ public class JobSend {
         Contact gf = contactManager.load("wxid_mq9g2u2w3w7822");
 
         if (gf != null) {
-            gf.say("现在是" + getDate() + ",记得喝水,保持开心,爱你么么哒     \n\n\n\n" + getText());
+            gf.say("现在是" + getDate() + ",记得喝水,保持开心,     \n\n" + getText());
         }
     }
 
@@ -59,7 +62,7 @@ public class JobSend {
                 String content = smp.get("content");
                 String dialogue = smp.get("dialogue");
                 String source = smp.get("source");
-                text = "\\" + content + dialogue + "\\" + "\n - <<" + source + ">>";
+                text = "\\" + content + dialogue + "\\" + "\n -      <<" + source + ">>";
                 text = text.replaceAll("null","");
                 System.out.println(text);
             }

@@ -2,7 +2,7 @@ package com.sq.external.tianxing;
 
 /**
  * @program: sayhi
- * @description:
+ * @description: 天行数据 api url and key
  * @author: zxw_
  * @create: 2020-11-12 17:08
  */
