@@ -16,9 +16,6 @@ import java.util.List;
  */
 public class SimpleMessageHandler implements Handler {
 
-
-    // 接入微信对话开放平台
-
     @Override
     public String run(Message message) {
         return null;

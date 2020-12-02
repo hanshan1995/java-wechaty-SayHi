@@ -4,7 +4,6 @@ package com.sq.game.handler;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.sq.game.config.CommonResult;
 import com.sq.game.config.ResultState;
 import com.sq.game.handler.urls.CommandEnum;
@@ -40,7 +39,11 @@ public class RoomMessageHandler implements Handler {
 
     private String getResultString(String[] arr,Message message) {
         String resultStr = "";
-        String matchValue = arr[0];
+        int index = 0;
+        String matchValue = arr[index];
+        while (matchValue.contains("@")) {
+            matchValue = arr[index++];
+        }
         CommandEnum node = CommandRoute.getByMatchValue(matchValue);
         // 没有匹配到指令
         if (node == null) {
@@ -49,7 +52,7 @@ public class RoomMessageHandler implements Handler {
         Integer type = node.getType();
         if ( type.equals(1) ) {
             // 拼装参数
-            JSONObject paramObj = getParamObj(arr,message.from().getId(),message.mentionList(),node.isParam());
+            JSONObject paramObj = getParamObj(arr,message.from().getId(),message.mentionList(),node.isParam(),index);
             // 发送请求
             resultStr = getHttpResult(HttpClientUtils.httpPost(node.getUrl(), paramObj));
         } else if (type.equals(2)){
@@ -70,7 +73,7 @@ public class RoomMessageHandler implements Handler {
         return resultStr;
     }
 
-    private JSONObject getParamObj(String[] arr, String wxid, List<Contact> contacts,boolean isParam) {
+    private JSONObject getParamObj(String[] arr, String wxid, List<Contact> contacts,boolean isParam,int index) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("wxid",wxid);
         if (CollUtil.isNotEmpty(contacts)) {
@@ -78,14 +81,10 @@ public class RoomMessageHandler implements Handler {
             jsonObject.accumulate("atid",contact.getId());
         }
         if (isParam) {
-            String name = arr[1];
+            String name = arr[index++];
             jsonObject.accumulate("name",name);
         }
         return jsonObject;
     }
-
-
-
-
 
 }

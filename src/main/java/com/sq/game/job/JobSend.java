@@ -1,5 +1,5 @@
 
-package com.sq.game.config;
+package com.sq.game.job;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONArray;
